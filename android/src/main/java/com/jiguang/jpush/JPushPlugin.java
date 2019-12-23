@@ -22,7 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.Iterator
+import java.util.Iterator;
 
 import cn.jpush.android.api.JPushInterface;
 import io.flutter.view.FlutterNativeView;
