@@ -22,6 +22,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.Iterator
 
 import cn.jpush.android.api.JPushInterface;
 import io.flutter.view.FlutterNativeView;
@@ -365,17 +366,29 @@ public class JPushPlugin implements MethodCallHandler {
         private Map<String, Object> getNotificationExtras(Intent intent) {
             Log.d(TAG,"");
 
-            Map<String, Object> extrasMap = new HashMap<String, Object>();
-            for (String key : intent.getExtras().keySet()) {
-                if (!IGNORED_EXTRAS_KEYS.contains(key)) {
-                    if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
-                        extrasMap.put(key, intent.getIntExtra(key, 0));
-                    } else {
-                        extrasMap.put(key, intent.getStringExtra(key));
-                    }
-                }
+
+            //Map<String, Object> extrasMap = new HashMap<String, Object>();
+            // for (String key : intent.getExtras().keySet()) {
+            //     if (!IGNORED_EXTRAS_KEYS.contains(key)) {
+            //         if (key.equals(JPushInterface.EXTRA_NOTIFICATION_ID)) {
+            //             extrasMap.put(key, intent.getIntExtra(key, 0));
+            //         } else {
+            //             extrasMap.put(key, intent.getStringExtra(key));
+            //         }
+            //     }
+            // }
+            HashMap<String, Object> map = new HashMap<String, Object>();  
+            try {
+                JSONObject jsonObject = new JSONObject(intent.getExtras().getString(JPushInterface.EXTRA_EXTRA));
+                Iterator it = jsonObject.keys();  
+                while (it.hasNext())  
+                {  
+                    String key = String.valueOf(it.next());  
+                    map.put(key, jsonObject.get(key));  
+                }  
+            } catch (Exception e) {
             }
-            return extrasMap;
+            return map;
         }
     }
 
